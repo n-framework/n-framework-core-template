@@ -1,0 +1,105 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v11.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v11.0": {
+      "Core.TemplateEngine.Scriban/1.0.0": {
+        "dependencies": {
+          "Core.TemplateEngine": "1.0.0",
+          "Core.TemplateEngine.Abstractions": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
+          "PluralizeService.Core": "2.1.1",
+          "Scriban": "5.10.0"
+        },
+        "runtime": {
+          "Core.TemplateEngine.Scriban.dll": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.5": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.526.15411"
+          }
+        }
+      },
+      "PluralizeService.Core/2.1.1": {
+        "runtime": {
+          "lib/netstandard2.1/PluralizeService.Core.dll": {
+            "assemblyVersion": "1.2.0.0",
+            "fileVersion": "1.2.0.0"
+          }
+        }
+      },
+      "Scriban/5.10.0": {
+        "runtime": {
+          "lib/net7.0/Scriban.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.10.0.0"
+          }
+        }
+      },
+      "Core.TemplateEngine/1.0.0": {
+        "dependencies": {
+          "Core.TemplateEngine.Abstractions": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5"
+        },
+        "runtime": {
+          "Core.TemplateEngine.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Core.TemplateEngine.Abstractions/1.0.0": {
+        "runtime": {
+          "Core.TemplateEngine.Abstractions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Core.TemplateEngine.Scriban/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iVMtq9eRvzyhx8949EGT0OCYJfXi737SbRVzWXE5GrOgGj5AaZ9eUuxA/BSUfmOMALKn/g8KfFaNQw0eiB3lyA==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/10.0.5",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512"
+    },
+    "PluralizeService.Core/2.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UmYl8lA736RS3ruPNvXMtP46HGmsZvLv7ExYerxbBeV1A55I0MjWwZEdZ/Sgi4Mk5ACYeMdkvnmO1bOxpR1rYA==",
+      "path": "pluralizeservice.core/2.1.1",
+      "hashPath": "pluralizeservice.core.2.1.1.nupkg.sha512"
+    },
+    "Scriban/5.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qk2W8wQpm7mykWrEi9fhjC7uVapT2bkweMuMqebrF7gaVMt0WjmZzyVVTpom5cUsc3ddMDpo95SkNcTWGo+L6Q==",
+      "path": "scriban/5.10.0",
+      "hashPath": "scriban.5.10.0.nupkg.sha512"
+    },
+    "Core.TemplateEngine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Core.TemplateEngine.Abstractions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

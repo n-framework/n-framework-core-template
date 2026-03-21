@@ -1,0 +1,16 @@
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/bin/Debug/net11.0/NFramework.Core.Template.Engine.deps.json
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/bin/Debug/net11.0/NFramework.Core.Template.Engine.dll
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/bin/Debug/net11.0/NFramework.Core.Template.Engine.pdb
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/bin/Debug/net11.0/NFramework.Core.Template.Abstractions.dll
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/bin/Debug/net11.0/NFramework.Core.Template.Abstractions.pdb
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.csproj.AssemblyReference.cache
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.GeneratedMSBuildEditorConfig.editorconfig
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.AssemblyInfoInputs.cache
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.AssemblyInfo.cs
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.csproj.CoreCompileInputs.cache
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.sourcelink.json
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramewo.DC1200A1.Up2Date
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.dll
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/refint/NFramework.Core.Template.Engine.dll
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/NFramework.Core.Template.Engine.pdb
+/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Engine/obj/Debug/net11.0/ref/NFramework.Core.Template.Engine.dll

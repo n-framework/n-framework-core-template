@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "GzfhSt+JLik=",
+  "success": true,
+  "projectFilePath": "/home/ac/Code/n-framework/n-framework/src/nfw/packages/core-template/src/NFramework.Core.Template.Scriban/NFramework.Core.Template.Scriban.csproj",
+  "expectedPackageFiles": [
+    "/home/ac/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.5/microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512",
+    "/home/ac/.nuget/packages/pluralizeservice.core/2.1.1/pluralizeservice.core.2.1.1.nupkg.sha512",
+    "/home/ac/.nuget/packages/scriban/6.6.0/scriban.6.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
