@@ -16,12 +16,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithSimpleVariable_ShouldReplaceVariable()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "Hello {{name}}!";
-        var data = new TestTemplateData { Name = "World" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "Hello {{name}}!";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Hello World!");
@@ -31,9 +31,9 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithMultipleVariables_ShouldReplaceAllVariables()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{greeting}} {{name}}, your order {{orderId}} is ready!";
-        var data = new OrderTemplateData
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{greeting}} {{name}}, your order {{orderId}} is ready!";
+        OrderTemplateData data = new OrderTemplateData
         {
             Greeting = "Hello",
             Name = "John",
@@ -41,7 +41,7 @@ public class ScribanTemplateRendererTests
         };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Hello John, your order 12345 is ready!");
@@ -51,12 +51,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithUnknownVariable_ShouldKeepVariableAsIs()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "Hello {{unknown}}!";
-        var data = new TestTemplateData { Name = "World" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "Hello {{unknown}}!";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Hello {{unknown}}!");
@@ -66,12 +66,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithEmptyTemplate_ShouldReturnEmptyString()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "";
-        var data = new TestTemplateData { Name = "World" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("");
@@ -81,11 +81,13 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithNullData_ShouldThrowArgumentException()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "Hello World!";
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "Hello World!";
 
         // Act & Assert
-        var exception = await Should.ThrowAsync<ArgumentException>(() => renderer.RenderAsync(template, null!));
+        ArgumentException exception = await Should.ThrowAsync<ArgumentException>(() =>
+            renderer.RenderAsync(template, null!)
+        );
 
         exception.ParamName.ShouldBe("data");
         exception.Message.ShouldContain("Data cannot be null");
@@ -95,10 +97,10 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithCancellation_ShouldCancelOperation()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "Hello {{name}}!";
-        var data = new TestTemplateData { Name = "World" };
-        var cts = new CancellationTokenSource();
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "Hello {{name}}!";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
+        CancellationTokenSource cts = new CancellationTokenSource();
 
         // Act
         cts.Cancel();
@@ -115,12 +117,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithCamelCaseFunction_ShouldConvertToCamelCase()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name | camel_case}}";
-        var data = new TestTemplateData { Name = "user name" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name | camel_case}}";
+        TestTemplateData data = new TestTemplateData { Name = "user name" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("userName");
@@ -130,12 +132,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithPascalCaseFunction_ShouldConvertToPascalCase()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name | pascal_case}}";
-        var data = new TestTemplateData { Name = "user name" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name | pascal_case}}";
+        TestTemplateData data = new TestTemplateData { Name = "user name" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("UserName");
@@ -145,12 +147,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithSnakeCaseFunction_ShouldConvertToSnakeCase()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name | snake_case}}";
-        var data = new TestTemplateData { Name = "UserName" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name | snake_case}}";
+        TestTemplateData data = new TestTemplateData { Name = "UserName" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("user_name");
@@ -160,12 +162,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithKebabCaseFunction_ShouldConvertToKebabCase()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{text | kebab_case}}";
-        var data = new TestTemplateData { Name = "userName" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{text | kebab_case}}";
+        TestTemplateData data = new TestTemplateData { Name = "userName" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("user-name");
@@ -175,12 +177,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithMultipleFunctions_ShouldApplyAllFunctions()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name | snake_case | pascal_case}}";
-        var data = new TestTemplateData { Name = "user-name" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name | snake_case | pascal_case}}";
+        TestTemplateData data = new TestTemplateData { Name = "user-name" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("User_Name");
@@ -190,12 +192,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithFunctionOnNonStringValue_ShouldHandleGracefully()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{count | camel_case}}";
-        var data = new TestTemplateData { Count = 123 };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{count | camel_case}}";
+        TestTemplateData data = new TestTemplateData { Count = 123 };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("123");
@@ -205,12 +207,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithFunctionOnNullValue_ShouldReturnEmptyString()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name | camel_case}}";
-        var data = new TestTemplateData { Name = null };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name | camel_case}}";
+        TestTemplateData data = new TestTemplateData { Name = null };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("");
@@ -224,12 +226,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithIfStatement_TrueCondition_ShouldRenderTrueBranch()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{#if active}}Active{{/if}}";
-        var data = new TestTemplateData { IsActive = true };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{#if active}}Active{{/if}}";
+        TestTemplateData data = new TestTemplateData { IsActive = true };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Active");
@@ -239,12 +241,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithIfStatement_FalseCondition_ShouldNotRender()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{#if active}}Active{{/if}}";
-        var data = new TestTemplateData { IsActive = false };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{#if active}}Active{{/if}}";
+        TestTemplateData data = new TestTemplateData { IsActive = false };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("");
@@ -254,12 +256,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithIfElseStatement_TrueCondition_ShouldRenderTrueBranch()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{#if active}}Active{{else}}Inactive{{/if}}";
-        var data = new TestTemplateData { IsActive = true };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{#if active}}Active{{else}}Inactive{{/if}}";
+        TestTemplateData data = new TestTemplateData { IsActive = true };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Active");
@@ -269,12 +271,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithIfElseStatement_FalseCondition_ShouldRenderFalseBranch()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{#if active}}Active{{else}}Inactive{{/if}}";
-        var data = new TestTemplateData { IsActive = false };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{#if active}}Active{{else}}Inactive{{/if}}";
+        TestTemplateData data = new TestTemplateData { IsActive = false };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Inactive");
@@ -284,12 +286,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithNullHandling_ShouldRenderFallback()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name ?? 'Guest'}}";
-        var data = new TestTemplateData { Name = null };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name ?? 'Guest'}}";
+        TestTemplateData data = new TestTemplateData { Name = null };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Guest");
@@ -299,12 +301,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithValueProvided_ShouldUseValueNotFallback()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{name ?? 'Guest'}}";
-        var data = new TestTemplateData { Name = "John" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{name ?? 'Guest'}}";
+        TestTemplateData data = new TestTemplateData { Name = "John" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("John");
@@ -318,7 +320,7 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithCustomFunction_ShouldExecuteCustomFunction()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
         renderer.AddCustomFunction(
             "format_date",
             (context, args) =>
@@ -327,8 +329,8 @@ public class ScribanTemplateRendererTests
                     return "No date provided";
 
                 // Simple mock date formatting
-                var dateStr = args[0]?.ToString() ?? "";
-                if (DateTime.TryParse(dateStr, out var date))
+                string dateStr = args[0]?.ToString() ?? "";
+                if (DateTime.TryParse(dateStr, out DateTime date))
                 {
                     return date.ToString("yyyy-MM-dd");
                 }
@@ -337,11 +339,11 @@ public class ScribanTemplateRendererTests
             }
         );
 
-        var template = "{{format_date date}}";
-        var data = new DateTemplateData { Date = "2023-12-25" };
+        string template = "{{format_date date}}";
+        DateTemplateData data = new DateTemplateData { Date = "2023-12-25" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("2023-12-25");
@@ -351,7 +353,7 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithCustomFunctionMultipleArgs_ShouldHandleMultipleArguments()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
         renderer.AddCustomFunction(
             "repeat_string",
             (context, args) =>
@@ -359,18 +361,18 @@ public class ScribanTemplateRendererTests
                 if (args.Count < 2)
                     return "";
 
-                var text = args[0]?.ToString() ?? "";
-                var count = args.Count > 1 ? Convert.ToInt32(args[1]) : 1;
+                string text = args[0]?.ToString() ?? "";
+                int count = args.Count > 1 ? Convert.ToInt32(args[1]) : 1;
 
                 return string.Join("", Enumerable.Repeat(text, count));
             }
         );
 
-        var template = "{{repeat_string text count}}";
-        var data = new RepeatTemplateData { Text = "Hello", Count = 3 };
+        string template = "{{repeat_string text count}}";
+        RepeatTemplateData data = new RepeatTemplateData { Text = "Hello", Count = 3 };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("HelloHelloHello");
@@ -380,12 +382,14 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithUnknownCustomFunction_ShouldFailGracefully()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "{{unknown_function arg}}";
-        var data = new TestTemplateData { Name = "test" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "{{unknown_function arg}}";
+        TestTemplateData data = new TestTemplateData { Name = "test" };
 
         // Act & Assert
-        var exception = await Should.ThrowAsync<InvalidOperationException>(() => renderer.RenderAsync(template, data));
+        InvalidOperationException exception = await Should.ThrowAsync<InvalidOperationException>(() =>
+            renderer.RenderAsync(template, data)
+        );
 
         exception.Message.ShouldContain("Function 'unknown_function' not found");
     }
@@ -398,7 +402,7 @@ public class ScribanTemplateRendererTests
     public void TemplateExtension_ShouldReturnCorrectExtension()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
 
         // Act & Assert
         renderer.TemplateExtension.ShouldBe(".sbn");
@@ -412,8 +416,8 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithComplexTemplate_ShouldHandleComplexity()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template =
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template =
             @"
 {{#if user.IsActive}}
   Hello {{user.Name}}! Welcome to {{user.Company}}.
@@ -422,7 +426,7 @@ public class ScribanTemplateRendererTests
   Please activate your account to continue.
 {{/if}}";
 
-        var data = new ComplexTemplateData
+        ComplexTemplateData data = new ComplexTemplateData
         {
             User = new UserProfile
             {
@@ -434,7 +438,7 @@ public class ScribanTemplateRendererTests
         };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldContain("Hello John Doe!");
@@ -447,13 +451,13 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithVeryLargeTemplate_ShouldHandleWithoutIssues()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var largeContent = new string('a', 10000);
-        var template = $"Content: {{text}}";
-        var data = new TestTemplateData { Text = largeContent };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string largeContent = new string('a', 10000);
+        string template = $"Content: {{text}}";
+        TestTemplateData data = new TestTemplateData { Text = largeContent };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldContain(largeContent);
@@ -463,12 +467,12 @@ public class ScribanTemplateRendererTests
     public async Task RenderAsync_WithUnicodeCharacters_ShouldHandleCorrectly()
     {
         // Arrange
-        var renderer = new ScribanTemplateRenderer();
-        var template = "Hello {{name}}! 你好 {{greeting}}!";
-        var data = new UnicodeTemplateData { Name = "世界", Greeting = "世界" };
+        ScribanTemplateRenderer renderer = new ScribanTemplateRenderer();
+        string template = "Hello {{name}}! 你好 {{greeting}}!";
+        UnicodeTemplateData data = new UnicodeTemplateData { Name = "世界", Greeting = "世界" };
 
         // Act
-        var result = await renderer.RenderAsync(template, data);
+        string result = await renderer.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Hello 世界! 你好 世界!");

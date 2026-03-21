@@ -1,4 +1,5 @@
 using NFramework.Core.Template.Abstractions;
+using NFramework.Core.Template.Abstractions.Models;
 using NFramework.Core.Template.Engine;
 using Shouldly;
 using Xunit;
@@ -16,18 +17,18 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderAsync_WithValidTemplateAndData_ShouldRenderContent()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
         _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("Hello World!");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object);
-        var template = "Hello {{name}}!";
-        var data = new TestTemplateData { Name = "World" };
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object);
+        string template = "Hello {{name}}!";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
-        var result = await engine.RenderAsync(template, data);
+        string result = await engine.RenderAsync(template, data);
 
         // Assert
         result.ShouldBe("Hello World!");
@@ -38,12 +39,12 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderAsync_WithNullTemplate_ShouldThrowArgumentException()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object);
-        var data = new TestTemplateData { Name = "World" };
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object);
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act & Assert
-        var exception = await Should.ThrowAsync<ArgumentException>(() => engine.RenderAsync(null!, data));
+        ArgumentException exception = await Should.ThrowAsync<ArgumentException>(() => engine.RenderAsync(null!, data));
 
         exception.ParamName.ShouldBe("template");
         exception.Message.ShouldContain("Template cannot be null");
@@ -53,16 +54,16 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderAsync_WithEmptyTemplate_ShouldRenderEmptyString()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object);
-        var data = new TestTemplateData { Name = "World" };
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object);
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
-        var result = await engine.RenderAsync("", data);
+        string result = await engine.RenderAsync("", data);
 
         // Assert
         result.ShouldBe("");
@@ -72,12 +73,14 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderAsync_WithNullData_ShouldThrowArgumentException()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object);
-        var template = "Hello World!";
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object);
+        string template = "Hello World!";
 
         // Act & Assert
-        var exception = await Should.ThrowAsync<ArgumentException>(() => engine.RenderAsync(template, null!));
+        ArgumentException exception = await Should.ThrowAsync<ArgumentException>(() =>
+            engine.RenderAsync(template, null!)
+        );
 
         exception.ParamName.ShouldBe("data");
         exception.Message.ShouldContain("Data cannot be null");
@@ -87,8 +90,8 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderAsync_WithCancellation_ShouldCancelOperation()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var cts = new CancellationTokenSource();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        CancellationTokenSource cts = new CancellationTokenSource();
 
         // Setup to simulate cancellation
         _ = mockRenderer
@@ -99,9 +102,9 @@ public class NFrameworkTemplateEngineTests
                 return "Hello World!";
             });
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object);
-        var template = "Hello {{name}}!";
-        var data = new TestTemplateData { Name = "World" };
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object);
+        string template = "Hello {{name}}!";
+        TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
         cts.Cancel();
@@ -118,15 +121,15 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithValidRequest_ShouldRenderAndWriteFile()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
-        var fileSystem = new MockFileSystem();
-        var templateContent = "Hello {{name}}!";
+        MockFileSystem fileSystem = new MockFileSystem();
+        string templateContent = "Hello {{name}}!";
         fileSystem.WriteAllText("/templates/User.sb.html", templateContent);
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/User.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -135,7 +138,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var result = await engine.RenderFileAsync(request);
+        string result = await engine.RenderFileAsync(request);
 
         // Assert
         result.ShouldBe("/output/User.cs");
@@ -151,11 +154,11 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithNonExistentTemplateFile_ShouldThrowArgumentException()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var fileSystem = new MockFileSystem();
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        MockFileSystem fileSystem = new MockFileSystem();
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
 
-        var request = new TemplateFileRenderRequest(
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/NonExistent.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -164,7 +167,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act & Assert
-        var exception = await Should.ThrowAsync<ArgumentException>(() => engine.RenderFileAsync(request));
+        ArgumentException exception = await Should.ThrowAsync<ArgumentException>(() => engine.RenderFileAsync(request));
 
         exception.ParamName.ShouldBe("request.TemplateFilePath");
         exception.Message.ShouldContain("Template file does not exist");
@@ -174,16 +177,16 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithEmptyTemplateFile_ShouldRenderEmptyContent()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("");
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/Empty.sb.html", "");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/Empty.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -192,7 +195,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var result = await engine.RenderFileAsync(request);
+        string result = await engine.RenderFileAsync(request);
 
         // Assert
         result.ShouldBe("/output/.cs");
@@ -203,15 +206,15 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithPathVariableReplacements_ShouldApplyReplacements()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
-        var fileSystem = new MockFileSystem();
-        var templateContent = "Hello {{name}}!";
+        MockFileSystem fileSystem = new MockFileSystem();
+        string templateContent = "Hello {{name}}!";
         fileSystem.WriteAllText("/templates/{{ProjectName}}.sb.html", templateContent);
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/{{ProjectName}}.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -220,7 +223,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var result = await engine.RenderFileAsync(request);
+        string result = await engine.RenderFileAsync(request);
 
         // Assert
         result.ShouldBe("/output/MyApp.cs");
@@ -243,14 +246,14 @@ public class NFrameworkTemplateEngineTests
     )
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sbn");
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText(templateFilePath, "Hello {{name}}!");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: templateFilePath,
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -259,7 +262,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var result = await engine.RenderFileAsync(request);
+        string result = await engine.RenderFileAsync(request);
 
         // Assert
         result.ShouldBe(expectedOutputPath);
@@ -270,15 +273,15 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithOutputDirectoryNotExisting_ShouldCreateDirectory()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
-        var fileSystem = new MockFileSystem();
-        var templateContent = "Hello World!";
+        MockFileSystem fileSystem = new MockFileSystem();
+        string templateContent = "Hello World!";
         fileSystem.WriteAllText("/templates/Test.sb.html", templateContent);
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/Test.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/new/output/dir",
@@ -287,7 +290,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var result = await engine.RenderFileAsync(request);
+        string result = await engine.RenderFileAsync(request);
 
         // Assert
         result.ShouldBe("/new/output/dir/Test.cs");
@@ -298,8 +301,8 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFileAsync_WithCancellation_ShouldCancelOperation()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var cts = new CancellationTokenSource();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        CancellationTokenSource cts = new CancellationTokenSource();
 
         _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), cts.Token))
@@ -309,11 +312,11 @@ public class NFrameworkTemplateEngineTests
                 return "Hello World!";
             });
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/Test.sb.html", "Hello {{name}}!");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFileRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFileRenderRequest request = new TemplateFileRenderRequest(
             templateFilePath: "/templates/Test.sb.html",
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -336,15 +339,15 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFilesAsync_WithValidRequest_ShouldProcessAllFiles()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/User.sb.html", "User: {{name}}");
         fileSystem.WriteAllText("/templates/Project.sb.html", "Project: {{projectName}}");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFilesRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFilesRenderRequest request = new TemplateFilesRenderRequest(
             templateFilePaths: new List<string> { "/templates/User.sb.html", "/templates/Project.sb.html" },
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -353,7 +356,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act
-        var results = await engine.RenderFilesAsync(request);
+        IReadOnlyList<string> results = await engine.RenderFilesAsync(request);
 
         // Assert
         results.ShouldContain("/output/User.cs");
@@ -368,14 +371,14 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFilesAsync_WithOneFileFailing_ShouldNotCreatePartialOutput()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
         _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/Valid.sb.html", "Valid content");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFilesRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFilesRenderRequest request = new TemplateFilesRenderRequest(
             templateFilePaths: new List<string> { "/templates/Valid.sb.html", "/templates/Invalid.sb.html" },
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",
@@ -394,15 +397,15 @@ public class NFrameworkTemplateEngineTests
     public async Task RenderFilesAsync_WithCancellation_ShouldCancelGracefully()
     {
         // Arrange
-        var mockRenderer = new Mock<ITemplateRenderer>();
-        var cts = new CancellationTokenSource();
+        Mock<ITemplateRenderer> mockRenderer = new Mock<ITemplateRenderer>();
+        CancellationTokenSource cts = new CancellationTokenSource();
 
-        var fileSystem = new MockFileSystem();
+        MockFileSystem fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/File1.sb.html", "Content 1");
         fileSystem.WriteAllText("/templates/File2.sb.html", "Content 2");
 
-        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
-        var request = new TemplateFilesRenderRequest(
+        NFrameworkTemplateEngine engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        TemplateFilesRenderRequest request = new TemplateFilesRenderRequest(
             templateFilePaths: new List<string> { "/templates/File1.sb.html", "/templates/File2.sb.html" },
             templateDirectoryPath: "/templates",
             outputDirectoryPath: "/output",

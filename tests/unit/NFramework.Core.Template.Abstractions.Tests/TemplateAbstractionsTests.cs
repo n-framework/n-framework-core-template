@@ -1,4 +1,5 @@
 using NFramework.Core.Template.Abstractions;
+using NFramework.Core.Template.Abstractions.Models;
 using Shouldly;
 using Xunit;
 
@@ -82,7 +83,7 @@ public class TemplateAbstractionsTests
     public void TemplateRenderRequest_WithValidData_ShouldCreateInstance()
     {
         // Arrange
-        var template = "Hello {{name}}!";
+        string template = "Hello {{name}}!";
         TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act
@@ -100,7 +101,7 @@ public class TemplateAbstractionsTests
         TestTemplateData data = new TestTemplateData { Name = "World" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() => new TemplateRenderRequest(null!, data));
+        ArgumentException exception = Should.Throw<ArgumentException>(() => new TemplateRenderRequest(null!, data));
 
         exception.ParamName.ShouldBe("Template");
         exception.Message.ShouldContain("Template cannot be null");
@@ -110,10 +111,10 @@ public class TemplateAbstractionsTests
     public void TemplateRenderRequest_WithNullData_ShouldThrowArgumentException()
     {
         // Arrange
-        var template = "Hello World!";
+        string template = "Hello World!";
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() => new TemplateRenderRequest(template, null!));
+        ArgumentException exception = Should.Throw<ArgumentException>(() => new TemplateRenderRequest(template, null!));
 
         exception.ParamName.ShouldBe("Data");
         exception.Message.ShouldContain("Data cannot be null");
@@ -127,9 +128,9 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithValidData_ShouldCreateInstance()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateFilePath = "templates/User.sb.html";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>
         {
             { "ProjectName", "MyApp" },
@@ -158,13 +159,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithNullTemplateFilePath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(null!, templateDirectoryPath, outputDirectoryPath, replacements, data)
         );
 
@@ -176,13 +177,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithEmptyTemplateFilePath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest("", templateDirectoryPath, outputDirectoryPath, replacements, data)
         );
 
@@ -194,13 +195,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithNullTemplateDirectoryPath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var outputDirectoryPath = "output";
+        string templateFilePath = "templates/User.sb.html";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(templateFilePath, null!, outputDirectoryPath, replacements, data)
         );
 
@@ -212,13 +213,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithEmptyTemplateDirectoryPath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var outputDirectoryPath = "output";
+        string templateFilePath = "templates/User.sb.html";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(templateFilePath, "", outputDirectoryPath, replacements, data)
         );
 
@@ -230,13 +231,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithNullOutputDirectoryPath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var templateDirectoryPath = "templates";
+        string templateFilePath = "templates/User.sb.html";
+        string templateDirectoryPath = "templates";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(templateFilePath, templateDirectoryPath, null!, replacements, data)
         );
 
@@ -248,13 +249,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithEmptyOutputDirectoryPath_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var templateDirectoryPath = "templates";
+        string templateFilePath = "templates/User.sb.html";
+        string templateDirectoryPath = "templates";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(templateFilePath, templateDirectoryPath, "", replacements, data)
         );
 
@@ -266,13 +267,13 @@ public class TemplateAbstractionsTests
     public void TemplateFileRenderRequest_WithNullData_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateFilePath = "templates/User.sb.html";
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateFilePath = "templates/User.sb.html";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFileRenderRequest(
                 templateFilePath,
                 templateDirectoryPath,
@@ -295,8 +296,8 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html", "templates/Project.sb.html" };
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string> { { "ProjectName", "MyApp" } };
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
@@ -321,13 +322,13 @@ public class TemplateAbstractionsTests
     public void TemplateFilesRenderRequest_WithNullTemplateFilePaths_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(null!, templateDirectoryPath, outputDirectoryPath, replacements, data)
         );
 
@@ -339,13 +340,13 @@ public class TemplateAbstractionsTests
     public void TemplateFilesRenderRequest_WithEmptyTemplateFilePaths_ShouldThrowArgumentException()
     {
         // Arrange
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(
                 new List<string>(),
                 templateDirectoryPath,
@@ -364,12 +365,12 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html" };
-        var outputDirectoryPath = "output";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(templateFilePaths, null!, outputDirectoryPath, replacements, data)
         );
 
@@ -382,12 +383,12 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html" };
-        var outputDirectoryPath = "output";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(templateFilePaths, "", outputDirectoryPath, replacements, data)
         );
 
@@ -400,12 +401,12 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html" };
-        var templateDirectoryPath = "templates";
+        string templateDirectoryPath = "templates";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(templateFilePaths, templateDirectoryPath, null!, replacements, data)
         );
 
@@ -418,12 +419,12 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html" };
-        var templateDirectoryPath = "templates";
+        string templateDirectoryPath = "templates";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
         TestTemplateData data = new TestTemplateData { Name = "Test" };
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(templateFilePaths, templateDirectoryPath, "", replacements, data)
         );
 
@@ -436,12 +437,12 @@ public class TemplateAbstractionsTests
     {
         // Arrange
         List<string> templateFilePaths = new List<string> { "templates/User.sb.html" };
-        var templateDirectoryPath = "templates";
-        var outputDirectoryPath = "output";
+        string templateDirectoryPath = "templates";
+        string outputDirectoryPath = "output";
         Dictionary<string, string> replacements = new Dictionary<string, string>();
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() =>
+        ArgumentException exception = Should.Throw<ArgumentException>(() =>
             new TemplateFilesRenderRequest(
                 templateFilePaths,
                 templateDirectoryPath,
