@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="src/NFramework.Core.Template.Abstractions/NFramework.Core.Template.Abstractions.csproj" />
+  <Project Path="src/NFramework.Core.Template.Engine/NFramework.Core.Template.Engine.csproj" />
+  <Project Path="src/NFramework.Core.Template.Scriban/NFramework.Core.Template.Scriban.csproj" />
+
+  <Project Path="tests/unit/NFramework.Core.Template.Abstractions.Tests/NFramework.Core.Template.Abstractions.Tests.csproj" />
+  <Project Path="tests/unit/NFramework.Core.Template.Engine.Tests/NFramework.Core.Template.Engine.Tests.csproj" />
+  <Project Path="tests/unit/NFramework.Core.Template.Scriban.Tests/NFramework.Core.Template.Scriban.Tests.csproj" />
+</Solution>
