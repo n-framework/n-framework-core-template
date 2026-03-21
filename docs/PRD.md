@@ -190,11 +190,11 @@ The Core Template Engine solves these problems by providing a clean, extensible 
 ```csharp
 // String template rendering
 string result = await templateEngine.RenderAsync(
-    new TemplateRenderRequest(templateString, templateData));
+    new Models.TemplateRenderRequest(templateString, templateData));
 
 // Single file rendering
 string outputPath = await templateEngine.RenderFileAsync(
-    new TemplateFileRenderRequest(
+    new Models.TemplateFileRenderRequest(
         TemplateFilePath: "template.sbn",
         TemplateDirectoryPath: "templates",
         OutputDirectoryPath: "output",
@@ -203,7 +203,7 @@ string outputPath = await templateEngine.RenderFileAsync(
 
 // Batch file rendering
 IReadOnlyList<string> outputPaths = await templateEngine.RenderFilesAsync(
-    new TemplateFilesRenderRequest(
+    new Models.TemplateFilesRenderRequest(
         TemplateFilePaths: ["template1.sbn", "template2.sbn"],
         TemplateDirectoryPath: "templates",
         OutputDirectoryPath: "output",

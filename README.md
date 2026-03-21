@@ -84,7 +84,7 @@ string result = await renderer.RenderAsync(template, data);
 // Create a template file at templates/Project.cs.sbn
 // Render it to output directory
 
-var request = new TemplateFileRenderRequest(
+var request = new Models.TemplateFileRenderRequest(
     TemplateFilePath: "templates/Project.cs.sbn",
     TemplateDirectoryPath: "templates",
     OutputDirectoryPath: "output",
@@ -102,7 +102,7 @@ string outputPath = await engine.RenderFileAsync(request);
 ### Batch File Rendering
 
 ```csharp
-var batchRequest = new TemplateFilesRenderRequest(
+var batchRequest = new Models.TemplateFilesRenderRequest(
     TemplateFilePaths: new[]
     {
         "templates/Project.cs.sbn",
@@ -157,7 +157,7 @@ public record ComplexTemplateData
 // Data: ProjectName = "MyApp", EntityName = "User"
 // Result: "src/MyApp/Models/User.cs"
 
-var pathRequest = new TemplateFileRenderRequest(
+var pathRequest = new Models.TemplateFileRenderRequest(
     TemplateFilePath: "templates/{{ProjectName}}/Models/{{EntityName}}.cs.sbn",
     TemplateDirectoryPath: "templates",
     OutputDirectoryPath: "src/{{ProjectName}}",
