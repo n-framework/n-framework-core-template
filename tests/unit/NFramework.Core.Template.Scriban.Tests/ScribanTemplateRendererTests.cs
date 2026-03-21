@@ -104,7 +104,7 @@ public class ScribanTemplateRendererTests
         cts.Cancel();
 
         // Assert
-        await Should.ThrowAsync<OperationCanceledException>(() => renderer.RenderAsync(template, data, cts.Token));
+        _ = await Should.ThrowAsync<OperationCanceledException>(() => renderer.RenderAsync(template, data, cts.Token));
     }
 
     #endregion
@@ -401,7 +401,7 @@ public class ScribanTemplateRendererTests
         var renderer = new ScribanTemplateRenderer();
 
         // Act & Assert
-        renderer.TemplateExtension.ShouldBe(".sb.html");
+        renderer.TemplateExtension.ShouldBe(".sbn");
     }
 
     #endregion

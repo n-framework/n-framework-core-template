@@ -6,9 +6,13 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Moq" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Shouldly" Version="4.2.1" />
     <PackageReference Include="xunit" Version="2.9.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
@@ -18,6 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NFramework.Core.Template.Abstractions\NFramework.Core.Template.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\NFramework.Core.Template.Abstractions\NFramework.Core.Template.Abstractions.csproj" />
   </ItemGroup>
 </Project>

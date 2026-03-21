@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\NFramework.Core.Template.Abstractions\NFramework.Core.Template.Abstractions.csproj" />
-    <ProjectReference Include="..\..\src\NFramework.Core.Template.Scriban\NFramework.Core.Template.Scriban.csproj" />
+    <ProjectReference Include="..\..\..\src\NFramework.Core.Template.Abstractions\NFramework.Core.Template.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\NFramework.Core.Template.Scriban\NFramework.Core.Template.Scriban.csproj" />
   </ItemGroup>
 </Project>

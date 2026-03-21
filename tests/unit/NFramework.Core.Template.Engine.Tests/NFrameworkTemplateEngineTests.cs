@@ -17,8 +17,8 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
-        mockRenderer
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("Hello World!");
 
@@ -54,7 +54,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer
+        _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("");
 
@@ -91,9 +91,9 @@ public class NFrameworkTemplateEngineTests
         var cts = new CancellationTokenSource();
 
         // Setup to simulate cancellation
-        mockRenderer
+        _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), cts.Token))
-            .ReturnsAsync<string>(task =>
+            .Returns(async () =>
             {
                 await Task.Delay(100, cts.Token);
                 return "Hello World!";
@@ -107,7 +107,7 @@ public class NFrameworkTemplateEngineTests
         cts.Cancel();
 
         // Assert
-        await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderAsync(template, data, cts.Token));
+        _ = await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderAsync(template, data, cts.Token));
     }
 
     #endregion
@@ -119,7 +119,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
         var fileSystem = new MockFileSystem();
         var templateContent = "Hello {{name}}!";
@@ -175,7 +175,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer
+        _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("");
 
@@ -204,7 +204,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
         var fileSystem = new MockFileSystem();
         var templateContent = "Hello {{name}}!";
@@ -226,12 +226,52 @@ public class NFrameworkTemplateEngineTests
         result.ShouldBe("/output/MyApp.cs");
     }
 
+    [Theory]
+    [InlineData("/templates/User.sbn", "/output/User.cs")]
+    [InlineData("/templates/User.scriban", "/output/User.cs")]
+    [InlineData("/templates/Page.sbn-html", "/output/Page.html")]
+    [InlineData("/templates/Page.sbn-htm", "/output/Page.htm")]
+    [InlineData("/templates/Page.sbnhtml", "/output/Page.html")]
+    [InlineData("/templates/Page.sbnhtm", "/output/Page.htm")]
+    [InlineData("/templates/Readme.sbn-txt", "/output/Readme.txt")]
+    [InlineData("/templates/Readme.sbntxt", "/output/Readme.txt")]
+    [InlineData("/templates/User.sbn-cs", "/output/User.cs")]
+    [InlineData("/templates/User.sbncs", "/output/User.cs")]
+    public async Task RenderFileAsync_WithSupportedTemplateExtensions_ShouldGenerateExpectedOutputPath(
+        string templateFilePath,
+        string expectedOutputPath
+    )
+    {
+        // Arrange
+        var mockRenderer = new Mock<ITemplateRenderer>();
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sbn");
+
+        var fileSystem = new MockFileSystem();
+        fileSystem.WriteAllText(templateFilePath, "Hello {{name}}!");
+
+        var engine = new NFrameworkTemplateEngine(mockRenderer.Object, fileSystem);
+        var request = new TemplateFileRenderRequest(
+            templateFilePath: templateFilePath,
+            templateDirectoryPath: "/templates",
+            outputDirectoryPath: "/output",
+            pathVariableReplacements: new Dictionary<string, string>(),
+            data: new TestTemplateData { Name = "World" }
+        );
+
+        // Act
+        var result = await engine.RenderFileAsync(request);
+
+        // Assert
+        result.ShouldBe(expectedOutputPath);
+        fileSystem.FileExists(expectedOutputPath).ShouldBeTrue();
+    }
+
     [Fact]
     public async Task RenderFileAsync_WithOutputDirectoryNotExisting_ShouldCreateDirectory()
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
         var fileSystem = new MockFileSystem();
         var templateContent = "Hello World!";
@@ -261,9 +301,9 @@ public class NFrameworkTemplateEngineTests
         var mockRenderer = new Mock<ITemplateRenderer>();
         var cts = new CancellationTokenSource();
 
-        mockRenderer
+        _ = mockRenderer
             .Setup(r => r.RenderAsync(It.IsAny<string>(), It.IsAny<ITemplateData>(), cts.Token))
-            .ReturnsAsync<string>(task =>
+            .Returns(async () =>
             {
                 await Task.Delay(100, cts.Token);
                 return "Hello World!";
@@ -285,7 +325,7 @@ public class NFrameworkTemplateEngineTests
         cts.Cancel();
 
         // Assert
-        await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderFileAsync(request, cts.Token));
+        _ = await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderFileAsync(request, cts.Token));
     }
 
     #endregion
@@ -297,7 +337,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
         var fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/User.sb.html", "User: {{name}}");
@@ -329,7 +369,7 @@ public class NFrameworkTemplateEngineTests
     {
         // Arrange
         var mockRenderer = new Mock<ITemplateRenderer>();
-        mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
+        _ = mockRenderer.Setup(r => r.TemplateExtension).Returns(".sb.html");
 
         var fileSystem = new MockFileSystem();
         fileSystem.WriteAllText("/templates/Valid.sb.html", "Valid content");
@@ -344,7 +384,7 @@ public class NFrameworkTemplateEngineTests
         );
 
         // Act & Assert
-        await Should.ThrowAsync<ArgumentException>(() => engine.RenderFilesAsync(request));
+        _ = await Should.ThrowAsync<ArgumentException>(() => engine.RenderFilesAsync(request));
 
         // Verify no files were created
         fileSystem.FileExists("/output/Valid.cs").ShouldBeFalse();
@@ -374,7 +414,7 @@ public class NFrameworkTemplateEngineTests
         cts.CancelAfter(10);
 
         // Assert
-        await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderFilesAsync(request, cts.Token));
+        _ = await Should.ThrowAsync<OperationCanceledException>(() => engine.RenderFilesAsync(request, cts.Token));
     }
 
     #endregion
