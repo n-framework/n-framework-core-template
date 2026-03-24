@@ -77,7 +77,7 @@ public sealed class NFrameworkTemplateEngine : ITemplateEngine
         string renderedContent = await _templateRenderer.RenderAsync(templateContent, request.Data, cancellationToken);
         renderedContent ??= SimpleRender(templateContent, request.Data);
 
-        string outputPath = BuildOutputPath(request, renderedContent);
+        string outputPath = buildOutputPath(request, renderedContent);
         string? outputDirectory = _fileSystem.GetDirectoryName(outputPath);
         if (!string.IsNullOrEmpty(outputDirectory) && !_fileSystem.DirectoryExists(outputDirectory))
         {
@@ -127,7 +127,7 @@ public sealed class NFrameworkTemplateEngine : ITemplateEngine
         return renderedPaths;
     }
 
-    private string BuildOutputPath(TemplateFileRenderRequest request, string renderedContent)
+    private string buildOutputPath(TemplateFileRenderRequest request, string renderedContent)
     {
         string relativePath = request.TemplateFilePath.Replace(
             request.TemplateDirectoryPath,
@@ -143,7 +143,7 @@ public sealed class NFrameworkTemplateEngine : ITemplateEngine
         );
 
         string fileName = _fileSystem.GetFileName(trimmedPath);
-        string finalFileName = BuildOutputFileName(fileName);
+        string finalFileName = buildOutputFileName(fileName);
         if (renderedContent.Length == 0)
         {
             finalFileName = ".cs";
@@ -183,7 +183,7 @@ public sealed class NFrameworkTemplateEngine : ITemplateEngine
         return output;
     }
 
-    private string BuildOutputFileName(string templateFileName)
+    private string buildOutputFileName(string templateFileName)
     {
         foreach ((string templateSuffix, string outputSuffix) in TemplateSuffixMappings)
         {

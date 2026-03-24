@@ -41,7 +41,7 @@ public sealed partial class ScribanTemplateRenderer : ITemplateRenderer
 
         string normalizedTemplate = EvaluateHandlebarsIfBlocks(template, data);
         normalizedTemplate = NormalizeTemplateSyntax(normalizedTemplate);
-        normalizedTemplate = EvaluateOrFailCustomFunctionCalls(normalizedTemplate, data);
+        normalizedTemplate = evaluateOrFailCustomFunctionCalls(normalizedTemplate, data);
         string preprocessedTemplate = PreserveUnknownSimpleVariables(normalizedTemplate, data);
 
         global::Scriban.Template parsedTemplate = global::Scriban.Template.Parse(preprocessedTemplate);
@@ -51,7 +51,7 @@ public sealed partial class ScribanTemplateRenderer : ITemplateRenderer
             throw new InvalidOperationException(error);
         }
 
-        TemplateContext context = BuildContext(data);
+        TemplateContext context = buildContext(data);
         string rendered;
         try
         {
@@ -71,7 +71,7 @@ public sealed partial class ScribanTemplateRenderer : ITemplateRenderer
         return RestoreUnknownSimpleVariables(rendered);
     }
 
-    private TemplateContext BuildContext(ITemplateData data)
+    private TemplateContext buildContext(ITemplateData data)
     {
         ScriptObject globals = new();
         globals.Import(data, renamer: member => ToLowerCamelCase(member.Name));
@@ -189,7 +189,7 @@ public sealed partial class ScribanTemplateRenderer : ITemplateRenderer
     )]
     private static partial Regex FunctionRegex();
 
-    private string EvaluateOrFailCustomFunctionCalls(string template, ITemplateData data)
+    private string evaluateOrFailCustomFunctionCalls(string template, ITemplateData data)
     {
         return FunctionRegex()
             .Replace(
