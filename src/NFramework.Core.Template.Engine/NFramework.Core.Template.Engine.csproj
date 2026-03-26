@@ -28,7 +28,7 @@
     <Title>NFramework Core Template Engine</Title>
     <Description>Template engine for NFramework code generation.</Description>
     <PackageTags>template; engine; codegen; nframework</PackageTags>
-    <RepositoryUrl>https://github.com/n-framework/n-framework-core-template</RepositoryUrl>
+    <RepositoryUrl>https://github.com/n-framework/core-template-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 

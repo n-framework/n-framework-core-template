@@ -28,7 +28,7 @@
     <Title>NFramework Core Template - Scriban</Title>
     <Description>Scriban-based template engine implementation for NFramework.</Description>
     <PackageTags>template; scriban; codegen; nframework</PackageTags>
-    <RepositoryUrl>https://github.com/n-framework/n-framework-core-template</RepositoryUrl>
+    <RepositoryUrl>https://github.com/n-framework/core-template-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 

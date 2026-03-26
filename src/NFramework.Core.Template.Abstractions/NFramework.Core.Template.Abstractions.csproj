@@ -28,7 +28,7 @@
     <Title>NFramework Core Template Abstractions</Title>
     <Description>Template abstractions for NFramework code generation and templating.</Description>
     <PackageTags>template; abstractions; codegen; nframework</PackageTags>
-    <RepositoryUrl>https://github.com/n-framework/n-framework-core-template</RepositoryUrl>
+    <RepositoryUrl>https://github.com/n-framework/core-template-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 </Project>
