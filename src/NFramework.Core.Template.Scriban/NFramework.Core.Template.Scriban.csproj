@@ -1,8 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Project Configuration -->
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <!-- Build Optimization -->
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <!-- Package Configuration -->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0</Version>
+    <Authors>NFramework</Authors>
+    <Product>NFramework</Product>
+    <PackageId>NFramework.Core.Template.Scriban</PackageId>
+    <Title>NFramework Core Template - Scriban</Title>
+    <Description>Scriban-based template engine implementation for NFramework.</Description>
+    <PackageTags>template; scriban; codegen; nframework</PackageTags>
+    <RepositoryUrl>https://github.com/n-framework/n-framework-core-template</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

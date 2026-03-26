@@ -28,7 +28,7 @@ internal static partial class ScribanStringFunctionsExtensions
         List<string> transformed = [];
         foreach (string segment in underscoreSegments)
         {
-            string[] words = SplitForPascalRegex().Split(segment).Where(word => word.Length > 0).ToArray();
+            string[] words = [.. SplitForPascalRegex().Split(segment).Where(word => word.Length > 0)];
 
             string transformedSegment = string.Concat(
                 words.Select(word => char.ToUpperInvariant(word[0]) + word[1..].ToLowerInvariant())
