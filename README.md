@@ -1,6 +1,17 @@
-# NFramework Core Template
+# NFramework.Core.Template
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/NFramework.Core.Template.Abstractions)](https://www.nuget.org/packages/NFramework.Core.Template.Abstractions/)
+[![NuGet](https://img.shields.io/nuget/v/NFramework.Core.Template.Engine)](https://www.nuget.org/packages/NFramework.Core.Template.Engine/)
+[![NuGet](https://img.shields.io/nuget/v/NFramework.Core.Template.Scriban)](https://www.nuget.org/packages/NFramework.Core.Template.Scriban/)
+[![Buy A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black&style=flat)](https://ahmetcetinkaya.me/donate)
 
 A powerful and extensible template engine for .NET with built-in Scriban support, designed for code generation and file templating in the NFramework ecosystem.
+
+**Core Techs:**
+[![.NET 11](https://img.shields.io/badge/.NET%2011-512BD4?style=flat&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+[![C#](https://img.shields.io/badge/C%23-68217A?style=flat&logo=csharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![Scriban](https://img.shields.io/badge/Scriban-0050A0?style=flat)](https://github.com/scriban/scriban)
 
 ## Features
 
@@ -214,14 +225,19 @@ dotnet test NFramework.Core.Template.Engine.Tests.csproj
 dotnet test NFramework.Core.Template.Scriban.Tests.csproj
 ```
 
+---
+
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+For development setup and contribution guidelines, see **[CONTRIBUTING.md](../../docs/CONTRIBUTING.md)**.
 
-## License
+---
 
-MIT License - see [LICENSE](LICENSE) for details.
+## 📄 License
+
+This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
+
+## Related Packages
+
+- [NFramework](https://github.com/n-framework/n-framework) — The parent framework
+- [NFramework.Core.CLI](../n-framework-core-cli) — CLI framework library
